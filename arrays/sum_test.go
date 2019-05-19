@@ -4,25 +4,21 @@ import "testing"
 
 func TestSum(t *testing.T) {
 
-	t.Run("collection of 5 numbers", func(t *testing.T) {
-		numbers := []int{1, 2, 3, 4, 5}
+	assertSum := func(expected int, numbers []int) {
+		t.Helper() // required so that fail output does not point inside this function but to where this function was called
 
-		got := Sum(numbers)
-		want := 15
+		sum := Sum(numbers)
 
-		if want != got {
-			t.Errorf("got %d want %d given, %v", got, want, numbers)
+		if expected != sum {
+			t.Errorf("sum %d want %d given, %v", sum, expected, numbers)
 		}
+	}
+
+	t.Run("collection of 5 numbers", func(t *testing.T) {
+		assertSum(15, []int{1, 2, 3, 4, 5})
 	})
 
 	t.Run("collection of any size", func(t *testing.T) {
-		numbers := []int{1, 2, 3}
-
-		got := Sum(numbers)
-		want := 6
-
-		if want != got {
-			t.Errorf("got %d want %d given, %v", got, want, numbers)
-		}
+		assertSum(6, []int{1, 2, 3})
 	})
 }
