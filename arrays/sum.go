@@ -14,3 +14,18 @@ func SumAll(numbersToSum ...[]int) (sums []int) {
 	}
 	return sums
 }
+
+func SumTail(numbers []int) (tailSum int) {
+	if len(numbers) <= 1 {
+		return 0
+	}
+	tail := numbers[1:]
+	return Sum(tail)
+}
+
+func SumAllTails(intSlices ...[]int) (tailSums []int) {
+	for _, numbers := range intSlices {
+		tailSums = append(tailSums, SumTail(numbers))
+	}
+	return tailSums
+}
