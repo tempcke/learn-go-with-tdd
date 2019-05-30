@@ -2,6 +2,7 @@ package main
 
 import (
 	"testing"
+	"reflect"
 )
 
 func TestPerimeter(t *testing.T) {
@@ -15,8 +16,8 @@ func TestPerimeter(t *testing.T) {
 
 	t.Run("rectangles", func(t *testing.T) {
 
-		r1 := Rectangle{10.0, 10.0}
-		r2 := Rectangle{10.0, 20.0}
+		r1 := Rectangle{Width: 10.0, Height: 10.0}
+		r2 := Rectangle{Width: 10.0, Height: 20.0}
 
 		assertPerimeter(t, 40.0, r1.Perimeter())
 		assertPerimeter(t, 60.0, r2.Perimeter())
@@ -29,15 +30,18 @@ func TestArea(t *testing.T) {
 		shape  Shape
 		expect float64
 	}{
-		{Rectangle{2.0, 3.0}, 6.0},
-		{Rectangle{3.0, 4.0}, 12.0},
-		{Rectangle{12, 6}, 72.0},
-		{Circle{10}, 314.1592653589793},
-		{Triangle{12, 6}, 36.0},
+		{shape: Rectangle{Width: 2.0, Height: 3.0}, expect: 6.0},
+		{shape: Rectangle{Width: 3.0, Height: 4.0}, expect: 12.0},
+		{shape: Rectangle{Width: 12, Height: 6}, expect: 72.0},
+		{shape: Circle{Radius: 10}, expect: 314.1592653589793},
+		{shape: Triangle{Width: 12, Height: 6}, expect: 36.0},
 	}
 
 	for _, tt := range areaTests {
-		assertShapeArea(t, tt.expect, tt.shape)
+		testName := reflect.TypeOf(tt.shape).String()
+		t.Run(testName, func(t *testing.T) {
+			assertShapeArea(t, tt.expect, tt.shape)
+		})
 	}
 }
 
