@@ -25,23 +25,26 @@ func TestPerimeter(t *testing.T) {
 }
 
 func TestArea(t *testing.T) {
+	for _, test := range shapesForAreaTests() {
+		testName := reflect.TypeOf(test.shape).String()
+		t.Run(testName, func(t *testing.T) {
+			assertShapeArea(t, test.expect, test.shape)
+		})
+	}
+}
 
-	areaTests := []struct {
-		shape  Shape
-		expect float64
-	}{
+type areaTest struct {
+	shape Shape
+	expect float64
+}
+
+func shapesForAreaTests() []areaTest {
+	return []areaTest {
 		{shape: Rectangle{Width: 2.0, Height: 3.0}, expect: 6.0},
 		{shape: Rectangle{Width: 3.0, Height: 4.0}, expect: 12.0},
 		{shape: Rectangle{Width: 12, Height: 6}, expect: 72.0},
 		{shape: Circle{Radius: 10}, expect: 314.1592653589793},
 		{shape: Triangle{Width: 12, Height: 6}, expect: 36.0},
-	}
-
-	for _, tt := range areaTests {
-		testName := reflect.TypeOf(tt.shape).String()
-		t.Run(testName, func(t *testing.T) {
-			assertShapeArea(t, tt.expect, tt.shape)
-		})
 	}
 }
 
