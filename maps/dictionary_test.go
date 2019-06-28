@@ -77,16 +77,47 @@ func TestHas(t *testing.T) {
 
 	_ = d.Add(goodWord, "this is a test")
 
-	if !d.Has(goodWord) {
-		t.Errorf("d.Has(%s) should be true but was false", goodWord)
-	}
-	if d.Has(badWord) {
-		t.Errorf("d.Has(%s) should be false but was true", badWord)
-	}
+	assertWordExists(t, d, goodWord)
+	assertWordNotExists(t, d, badWord)
 }
 
 func TestDelete(t *testing.T) {
-	t.Error("https://github.com/quii/learn-go-with-tests/blob/master/maps.md#write-the-test-first-6");
+	//t.Error("https://github.com/quii/learn-go-with-tests/blob/master/maps.md#write-the-test-first-6");
+
+	d := Dictionary{}
+
+	word := "test"
+	def  := "this is a test"
+
+	t.Run("can not delete words that do not exist", func(t *testing.T) {
+		d.Delete(word)
+
+		assertWordNotExists(t, d, word)
+	})
+
+	t.Run("delete existing word", func (t *testing.T) {
+		_ = d.Add(word, def)
+
+		d.Delete(word)
+
+		assertWordNotExists(t, d, word)
+	})
+}
+
+func assertWordExists(t *testing.T, d Dictionary, word string) {
+	t.Helper()
+
+	if !d.Has(word) {
+		t.Errorf("d.Has(%s) should be true but was false", word)
+	}
+}
+
+func assertWordNotExists(t *testing.T, d Dictionary, word string) {
+	t.Helper()
+
+	if d.Has(word) {
+		t.Errorf("d.Has(%s) should be false but was true", word)
+	}
 }
 
 func assertEquals(t *testing.T, expected string, actual string) {

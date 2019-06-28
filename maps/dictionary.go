@@ -47,3 +47,9 @@ func (d Dictionary) Has(word string) bool {
 
 	return ok
 }
+
+func (d Dictionary) Delete(word string) {
+	if d.Has(word) {
+		delete(d, word)
+	}
+}
