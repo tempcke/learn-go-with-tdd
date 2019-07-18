@@ -1,6 +1,6 @@
 package concurrency
 
-import "time"
+import "fmt"
 
 type WebsiteChecker func(string) bool
 
@@ -15,8 +15,7 @@ func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 
 	for _, url := range urls {
 		go func(u string) {
-			time.Sleep(10000 * time.Millisecond)
-			resultChannel <- result{u, wc(u)} // results[u] = wc(u)
+			resultChannel <- result{u, wc(u)}
 		}(url)
 	}
 
