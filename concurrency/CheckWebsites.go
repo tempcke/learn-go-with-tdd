@@ -1,7 +1,5 @@
 package concurrency
 
-import "fmt"
-
 type WebsiteChecker func(string) bool
 
 type result struct {
