@@ -22,6 +22,21 @@ func (n Name) isUpper() bool {
 	return n.String() == strings.ToUpper(n.name)
 }
 
+func NameList(names []string) string {
+	if len(names) == 2 {
+		return strings.Join(names, " and ")
+	}
+	var result string
+	for i, name := range names {
+		switch i {
+		case 0: result = name
+		case len(names) - 1: result = fmt.Sprintf("%s, and %s", result, name)
+		default: result = fmt.Sprintf("%s, %s", result, name)
+		}
+	}
+	return result
+}
+
 func Greet(names... string) string {
 	if len(names) == 1 {
 		name := names[0]
@@ -31,5 +46,5 @@ func Greet(names... string) string {
 		}
 		return fmt.Sprintf("Hello, %s.", n.String())
 	}
-	return fmt.Sprintf("Hello, %s.", strings.Join(names, " and "))
+	return fmt.Sprintf("Hello, %s.", NameList(names))
 }
