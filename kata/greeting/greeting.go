@@ -62,7 +62,22 @@ func (names Names) Greet() string {
 	return normalGreet
 }
 
+func parseNameList(input []string) []string {
+	var names []string
+	for _, val := range input {
+		if strings.Contains(val, ",") {
+			for _, name := range strings.Split(val, ",") {
+				names = append(names, strings.Trim(name, " "))
+			}
+			continue
+		}
+		names = append(names, val)
+	}
+	return names
+}
+
 func buildNames(names []string) Names {
+	names = parseNameList(names)
 	if len(names) == 1 && names[0] == "" {
 		names[0] = defaultName
 	}
