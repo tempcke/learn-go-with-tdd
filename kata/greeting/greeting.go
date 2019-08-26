@@ -2,15 +2,18 @@ package main
 
 import "fmt"
 
-const DEFAULT_NAME = "my friend"
+const defaultName = "my friend"
 
-func Greet(name string) string {
-	return fmt.Sprintf("Hello, %s.", Name(name))
+type Name string
+
+func (n Name) String() string {
+	if n == "" {
+		return defaultName
+	}
+	return string(n)
 }
 
-func Name(name string) string {
-	if name == "" {
-		return DEFAULT_NAME
-	}
-	return name
+func Greet(name string) string {
+	n := Name(name)
+	return fmt.Sprintf("Hello, %s.", n.String())
 }
