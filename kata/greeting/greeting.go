@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 )
 
@@ -62,19 +63,11 @@ func (names Names) Greet() string {
 	return normalGreet
 }
 
-func parseNameList(input []string) []string {
-	var names []string
-	for _, val := range input {
-		if strings.Contains(val, ",") {
-			for _, name := range strings.Split(val, ",") {
-				names = append(names, strings.Trim(name, " "))
-			}
-			continue
-		}
-		names = append(names, val)
-	}
-	return names
+func Greet(nameList ... string) string {
+	names := buildNames(nameList)
+	return names.Greet()
 }
+
 
 func buildNames(names []string) Names {
 	names = parseNameList(names)
@@ -93,7 +86,21 @@ func buildNames(names []string) Names {
 	return Names{ normal, shout	}
 }
 
-func Greet(nameList ... string) string {
-	names := buildNames(nameList)
-	return names.Greet()
+func parseNameList(input []string) []string {
+	var names []string
+	for _, val := range input {
+		if !isQuoted(val) && strings.Contains(val, ",") {
+			for _, name := range strings.Split(val, ",") {
+				names = append(names, strings.Trim(name, " "))
+			}
+			continue
+		}
+		names = append(names, strings.Trim(val,"\""))
+	}
+	return names
+}
+
+func isQuoted(name string) bool {
+	var quoted = regexp.MustCompile(`^\".+\"$`)
+	return quoted.MatchString(name)
 }

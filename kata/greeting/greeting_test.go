@@ -45,6 +45,12 @@ func TestGreeting(t *testing.T) {
 		actual := Greet("Bob", "Charlie, Dianne")
 		assertEqual(t, expected, actual)
 	})
+
+	t.Run("Req 8, detect multiple names within each string arg", func(t *testing.T) {
+		expected := "Hello, Bob and Charlie, Dianne."
+		actual := Greet("Bob", "\"Charlie, Dianne\"")
+		assertEqual(t, expected, actual)
+	})
 }
 
 func assertEqual(t *testing.T, expected, actual string) {
