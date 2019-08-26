@@ -22,10 +22,14 @@ func (n Name) isUpper() bool {
 	return n.String() == strings.ToUpper(n.name)
 }
 
-func Greet(name string) string {
-	n := Name{name}
-	if n.isUpper() {
-		return fmt.Sprintf("HELLO %s!", n.String())
+func Greet(names... string) string {
+	if len(names) == 1 {
+		name := names[0]
+		n := Name{name}
+		if n.isUpper() {
+			return fmt.Sprintf("HELLO %s!", n.String())
+		}
+		return fmt.Sprintf("Hello, %s.", n.String())
 	}
-	return fmt.Sprintf("Hello, %s.", n.String())
+	return fmt.Sprintf("Hello, %s.", strings.Join(names, " and "))
 }

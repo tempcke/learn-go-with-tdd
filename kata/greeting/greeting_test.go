@@ -22,5 +22,11 @@ func TestGreeting(t *testing.T) {
 		expected := "HELLO JERRY!"
 		assert.Equal(t, expected, Greet(name))
 	})
+
+	t.Run("Requirement 4, multiple names", func(t *testing.T) {
+		expected := "Hello, Jill and Jane."
+		actual := Greet("Jill", "Jane")
+		assert.Equal(t, expected, actual)
+	})
 }
 
