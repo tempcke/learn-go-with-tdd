@@ -33,10 +33,16 @@ func TestGreeting(t *testing.T) {
 		actual := Greet("Amy", "Brian", "Charlotte")
 		assertEqual(t, expected, actual)
 	})
+
+	t.Run("Req 6, separate normal and shouting names", func(t *testing.T) {
+		expected := "Hello, Amy and Charlotte. AND HELLO BRIAN!"
+		actual := Greet("Amy", "BRIAN", "Charlotte")
+		assertEqual(t, expected, actual)
+	})
 }
 
 func assertEqual(t *testing.T, expected, actual string) {
 	if expected != actual {
-		t.Errorf("\nWant\t%s\nGot \t%s\n", expected, actual)
+		t.Errorf("\nWant  %s\nGot   %s\n", expected, actual)
 	}
 }
