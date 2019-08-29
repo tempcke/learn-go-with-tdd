@@ -7,6 +7,8 @@ import (
 
 const defaultName = "my friend"
 
+var isQuotedRegEx = regexp.MustCompile(`^".+"$`)
+
 func Greet(nameList ... string) string {
 	names := buildNames(nameList)
 	return names.Greet()
@@ -44,6 +46,5 @@ func parseNameList(input []string) []string {
 }
 
 func isQuoted(name string) bool {
-	var quoted = regexp.MustCompile(`^\".+\"$`)
-	return quoted.MatchString(name)
+	return isQuotedRegEx.MatchString(name)
 }
