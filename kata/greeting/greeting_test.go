@@ -4,58 +4,54 @@ import (
 	"testing"
 )
 
-func TestGreeting(t *testing.T) {
-	t.Run("Requirement 1, simple greeting", func(t *testing.T) {
-		expected := "Hello, Bob."
-		assertEqual(t, expected, Greet("Bob"))
-	})
-
-	t.Run("Requirement 2, handle null name", func(t *testing.T) {
-		var name string
-		expected := "Hello, my friend."
-		assertEqual(t, expected, Greet(name))
-	})
-
-	t.Run("Requirement 3, shout for uppercase names", func(t *testing.T) {
-		name := "JERRY"
-		expected := "HELLO JERRY!"
-		assertEqual(t, expected, Greet(name))
-	})
-
-	t.Run("Requirement 4, two names", func(t *testing.T) {
-		expected := "Hello, Jill and Jane."
-		actual := Greet("Jill", "Jane")
-		assertEqual(t, expected, actual)
-	})
-
-	t.Run("Requirement 5, three or more names", func(t *testing.T) {
-		expected := "Hello, Amy, Brian, and Charlotte."
-		actual := Greet("Amy", "Brian", "Charlotte")
-		assertEqual(t, expected, actual)
-	})
-
-	t.Run("Req 6, separate normal and shouting names", func(t *testing.T) {
-		expected := "Hello, Amy and Charlotte. AND HELLO BRIAN!"
-		actual := Greet("Amy", "BRIAN", "Charlotte")
-		assertEqual(t, expected, actual)
-	})
-
-	t.Run("Req 7, detect multiple names within each string arg", func(t *testing.T) {
-		expected := "Hello, Bob, Charlie, and Dianne."
-		actual := Greet("Bob", "Charlie, Dianne")
-		assertEqual(t, expected, actual)
-	})
-
-	t.Run("Req 8, detect multiple names within each string arg", func(t *testing.T) {
-		expected := "Hello, Bob and Charlie, Dianne."
-		actual := Greet("Bob", "\"Charlie, Dianne\"")
-		assertEqual(t, expected, actual)
-	})
+var requirement = []struct {
+	desc     string
+	inputs   []string
+	expected string
+}{
+	{
+		"Requirement 1, simple greeting",
+		[]string{"Bob"},
+		"Hello, Bob.",
+	}, {
+		"Requirement 2, handle null name",
+		[]string{""},
+		"Hello, my friend.",
+	}, {
+		"Requirement 3, shout for uppercase names",
+		[]string{"JERRY"},
+		"HELLO JERRY!",
+	}, {
+		"Requirement 4, two names",
+		[]string{"Jill", "Jane"},
+		"Hello, Jill and Jane.",
+	}, {
+		"Requirement 5, three or more names",
+		[]string{"Amy", "Brian", "Charlotte"},
+		"Hello, Amy, Brian, and Charlotte.",
+	}, {
+		"Req 6, separate normal and shouting names",
+		[]string{"Amy", "BRIAN", "Charlotte"},
+		"Hello, Amy and Charlotte. AND HELLO BRIAN!",
+	}, {
+		"Req 7, detect multiple names within each string arg",
+		[]string{"Bob", "Charlie, Dianne"},
+		"Hello, Bob, Charlie, and Dianne.",
+	}, {
+		"Req 8, detect multiple names within each string arg",
+		[]string{"Bob", "\"Charlie, Dianne\""},
+		"Hello, Bob and Charlie, Dianne.",
+	},
 }
 
-func assertEqual(t *testing.T, expected, actual string) {
-	t.Helper()
-	if expected != actual {
-		t.Errorf("\nWant  %s\nGot   %s\n", expected, actual)
+func TestRequirement(t *testing.T) {
+	for _, req := range requirement {
+		t.Run(req.desc, func(t *testing.T) {
+			greeting := Greet(req.inputs...)
+			if req.expected != greeting {
+				t.Errorf("\nWant  %s\nGot   %s\n", req.expected, greeting)
+			}
+		})
 	}
 }
+
