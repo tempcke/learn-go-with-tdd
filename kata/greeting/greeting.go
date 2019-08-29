@@ -9,7 +9,7 @@ const defaultName = "my friend"
 
 var isQuotedRegEx = regexp.MustCompile(`^".+"$`)
 
-func Greet(nameList ... string) string {
+func Greet(nameList ...string) string {
 	names := buildNames(nameList)
 	return names.Greet()
 }
@@ -20,7 +20,7 @@ func buildNames(names []string) Names {
 		names[0] = defaultName
 	}
 	var normal []string
-	var shout  []string
+	var shout []string
 	for _, name := range names {
 		if name == strings.ToUpper(name) {
 			shout = append(shout, name)
@@ -28,7 +28,7 @@ func buildNames(names []string) Names {
 		}
 		normal = append(normal, name)
 	}
-	return Names{ normal, shout	}
+	return Names{normal, shout}
 }
 
 func parseNameList(input []string) []string {
@@ -40,7 +40,7 @@ func parseNameList(input []string) []string {
 			}
 			continue
 		}
-		names = append(names, strings.Trim(val,"\""))
+		names = append(names, strings.Trim(val, "\""))
 	}
 	return names
 }

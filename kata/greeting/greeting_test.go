@@ -6,9 +6,9 @@ import (
 
 func TestGreeting(t *testing.T) {
 	t.Run("Requirement 1, simple greeting", func(t *testing.T) {
-	  expected := "Hello, Bob."
-	  assertEqual(t, expected, Greet("Bob"))
-  })
+		expected := "Hello, Bob."
+		assertEqual(t, expected, Greet("Bob"))
+	})
 
 	t.Run("Requirement 2, handle null name", func(t *testing.T) {
 		var name string
