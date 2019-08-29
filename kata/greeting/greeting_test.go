@@ -4,11 +4,14 @@ import (
 	"testing"
 )
 
-var requirement = []struct {
-	desc     string
-	inputs   []string
+
+type requirement struct {
+	desc string
+	inputs []string
 	expected string
-}{
+}
+
+var requirements = []requirement{
 	{
 		"Requirement 1, simple greeting",
 		[]string{"Bob"},
@@ -44,14 +47,18 @@ var requirement = []struct {
 	},
 }
 
-func TestRequirement(t *testing.T) {
-	for _, req := range requirement {
+func TestGreetings(t *testing.T) {
+	for _, req := range requirements {
 		t.Run(req.desc, func(t *testing.T) {
-			greeting := Greet(req.inputs...)
-			if req.expected != greeting {
-				t.Errorf("\nWant  %s\nGot   %s\n", req.expected, greeting)
-			}
+			checkRequirement(t, req)
 		})
+	}
+}
+
+func checkRequirement(t *testing.T, req requirement) {
+	greeting := Greet(req.inputs...)
+	if req.expected != greeting {
+		t.Errorf("\nWant  %s\nGot   %s\n", req.expected, greeting)
 	}
 }
 
