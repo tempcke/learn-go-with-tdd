@@ -4,10 +4,9 @@ import (
 	"testing"
 )
 
-
 type requirement struct {
-	desc string
-	inputs []string
+	desc     string
+	inputs   []string
 	expected string
 }
 
@@ -61,4 +60,3 @@ func checkRequirement(t *testing.T, req requirement) {
 		t.Errorf("\nWant  %s\nGot   %s\n", req.expected, greeting)
 	}
 }
-
