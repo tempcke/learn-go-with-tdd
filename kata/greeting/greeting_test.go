@@ -54,6 +54,7 @@ func TestGreeting(t *testing.T) {
 }
 
 func assertEqual(t *testing.T, expected, actual string) {
+	t.Helper()
 	if expected != actual {
 		t.Errorf("\nWant  %s\nGot   %s\n", expected, actual)
 	}
