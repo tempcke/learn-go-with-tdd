@@ -15,19 +15,34 @@ func (g *Game) Score() int {
 	i := 0
 
 	for frame := 0; frame < 10; frame++ {
-		ball1 := g.rolls[i]
-		ball2 := g.rolls[i+1]
-		if ball1 == 10 {
-			score += 10 + g.rolls[i+1] + g.rolls[i+2]
+		switch {
+		case g.isStrike(i):
+			score += 10 + g.strikeBonus(i)
 			i += 1
-		} else if ball1+ball2 == 10 {
-			score += 10 + g.rolls[i+2]
+		case g.isSpare(i):
+			score += 10 + g.spareBonus(i)
 			i += 2
-		} else {
-			score += ball1 + ball2
+		default:
+			score += g.rolls[i] + g.rolls[i+1]
 			i += 2
 		}
 	}
 
 	return score
+}
+
+func (g *Game) isSpare(firstBallIndex int) bool {
+	return g.rolls[firstBallIndex]+g.rolls[firstBallIndex+1] == 10
+}
+
+func (g *Game) isStrike(firstBallIndex int) bool {
+	return g.rolls[firstBallIndex] == 10
+}
+
+func (g *Game) strikeBonus(firstBallIndex int) int {
+	return g.rolls[firstBallIndex+1] + g.rolls[firstBallIndex+2]
+}
+
+func (g *Game) spareBonus(firstBallIndex int) int {
+	return g.rolls[firstBallIndex+2]
 }
