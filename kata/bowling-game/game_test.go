@@ -14,17 +14,26 @@ import (
 
 func TestGutterGame(t *testing.T) {
 	g := Game{}
-	role(&g, 0, 20)
+	rollMany(&g, 0, 20)
 	assert.Equal(t, 0, g.Score())
 }
 
 func TestAllOnes(t *testing.T) {
 	g := Game{}
-	role(&g, 1, 20)
+	rollMany(&g, 1, 20)
 	assert.Equal(t, 20, g.Score())
 }
 
-func role(g *Game, pins int, roles int) {
+func TestSpare(t *testing.T) {
+	g := Game{}
+	g.Roll(5)
+	g.Roll(5)
+	g.Roll(3)
+	rollMany(&g, 17, 0)
+	assert.Equal(t, 16, g.Score())
+}
+
+func rollMany(g *Game, pins int, roles int) {
 	for i := 0; i < roles; i++ {
 		g.Roll(pins)
 	}
