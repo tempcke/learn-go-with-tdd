@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func resolve(input string) int {
+func Resolve(input string) int {
 	if n, err := str2int(input); err == nil {
 		return n
 	}

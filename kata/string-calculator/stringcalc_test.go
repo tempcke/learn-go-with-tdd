@@ -42,7 +42,7 @@ func TestStringCalculator(t *testing.T) {
 }
 
 func checkRequirement(t *testing.T, req requirement) {
-	result := resolve(req.input)
+	result := Resolve(req.input)
 	if req.expected != result {
 		t.Errorf("\nWant  %d\nGot   %d\n", req.expected, result)
 	}
