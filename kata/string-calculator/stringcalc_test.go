@@ -31,6 +31,16 @@ var requirements = []requirement{
 		"3\n4",
 		7,
 	},
+	{
+		"Three numbers, delimited either way, returns the sum",
+		"3\n4\n5",
+		12,
+	},
+	{
+		"Three numbers, delimited either way, returns the sum",
+		"3,4,5",
+		12,
+	},
 }
 
 func TestStringCalculator(t *testing.T) {
