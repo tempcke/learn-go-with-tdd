@@ -21,6 +21,11 @@ var requirements = []requirement{
 		"42",
 		42,
 	},
+	{
+		"Two numbers, comma delimited, returns the sum",
+		"2,3",
+		5,
+	},
 }
 
 func TestStringCalculator(t *testing.T) {
