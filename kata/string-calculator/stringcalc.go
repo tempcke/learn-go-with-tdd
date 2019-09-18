@@ -9,12 +9,15 @@ func resolve(input string) int {
 	if n, err := str2int(input); err == nil {
 		return n
 	}
-	nums := str2slice(input, ",")
+	d := detectDelim(input)
+	nums := str2slice(input, d)
 	return sum(nums...)
 }
 
 func str2int(input string) (i int, err error) {
-	if input == "" { return 0, nil }
+	if input == "" {
+		return 0, nil
+	}
 	n, err := strconv.ParseInt(input, 10, 64)
 	if err != nil {
 		return 0, err
@@ -38,4 +41,11 @@ func sum(ints ...int) int {
 		sum += ints[i]
 	}
 	return sum
+}
+
+func detectDelim(input string) string {
+	if strings.Contains(input, "\n") {
+		return "\n"
+	}
+	return ","
 }

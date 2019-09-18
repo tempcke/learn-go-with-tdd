@@ -26,6 +26,11 @@ var requirements = []requirement{
 		"2,3",
 		5,
 	},
+	{
+		"Two numbers, newline delimited, returns the sum",
+		"3\n4",
+		7,
+	},
 }
 
 func TestStringCalculator(t *testing.T) {
