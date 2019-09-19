@@ -51,8 +51,21 @@ func TestStringCalculator(t *testing.T) {
 	}
 }
 
+func TestErrorHandling(t *testing.T) {
+	t.Run("Negative numbers result in an error", func(t *testing.T) {
+		input := "-42"
+		n, e := Resolve(input)
+		if e == nil {
+			t.Errorf("\nExpected error due to negative number\n\tInput: %s\n\tResult: %d", input, n)
+		}
+	})
+}
+
 func checkRequirement(t *testing.T, req requirement) {
-	result := Resolve(req.input)
+	result, e := Resolve(req.input)
+	if e != nil {
+		t.Errorf("\nUnexpected error\n\tInput: %s\n\tError: %s\n", req.input, e.Error())
+	}
 	if req.expected != result {
 		t.Errorf("\nWant  %d\nGot   %d\n", req.expected, result)
 	}

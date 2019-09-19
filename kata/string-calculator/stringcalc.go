@@ -5,13 +5,26 @@ import (
 	"strings"
 )
 
-func Resolve(input string) int {
+type InputError string
+
+func (e InputError) Error() string {
+	return string(e)
+}
+
+const (
+	ErrNegNums = InputError("negative numbers are not permitted")
+)
+
+func Resolve(input string) (int, error) {
 	if n, err := str2int(input); err == nil {
-		return n
+	  if n < 0 {
+			return n, ErrNegNums
+		}
+		return n, nil
 	}
 	d := detectDelim(input)
 	nums := str2slice(input, d)
-	return sum(nums...)
+	return sum(nums...), nil
 }
 
 func str2int(input string) (i int, err error) {
