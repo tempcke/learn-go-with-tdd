@@ -24,7 +24,7 @@ func Resolve(input string) (int, error) {
 	}
 	d := detectDelim(input)
 	nums := str2slice(input, d)
-	return sum(nums...), nil
+	return sum(nums...)
 }
 
 func str2int(input string) (i int, err error) {
@@ -48,12 +48,15 @@ func str2slice(input string, delim string) []int {
 	return result
 }
 
-func sum(ints ...int) int {
+func sum(ints ...int) (int, error) {
 	sum := 0
 	for i := range ints {
+		if ints[i] < 0 {
+			return 0, ErrNegNums
+		}
 		sum += ints[i]
 	}
-	return sum
+	return sum, nil
 }
 
 func detectDelim(input string) string {

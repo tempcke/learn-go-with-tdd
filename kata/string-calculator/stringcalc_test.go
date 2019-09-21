@@ -1,6 +1,7 @@
 package string_calculator
 
 import (
+	"gotest.tools/assert"
 	"testing"
 )
 
@@ -52,13 +53,15 @@ func TestStringCalculator(t *testing.T) {
 }
 
 func TestErrorHandling(t *testing.T) {
-	t.Run("Negative numbers result in an error", func(t *testing.T) {
-		input := "-42"
-		n, e := Resolve(input)
-		if e == nil {
-			t.Errorf("\nExpected error due to negative number\n\tInput: %s\n\tResult: %d", input, n)
-		}
-	})
+	assertErrNegNums(t, "-42")
+	assertErrNegNums(t, "4,-2")
+	assertErrNegNums(t, "4\n-2")
+}
+
+func assertErrNegNums(t *testing.T, input string) {
+	t.Helper()
+	n, e := Resolve(input)
+	assert.Equal(t, ErrNegNums, e, "\nExpected error due to negative number\n\tInput: %s\n\tResult: %d", input, n)
 }
 
 func checkRequirement(t *testing.T, req requirement) {
