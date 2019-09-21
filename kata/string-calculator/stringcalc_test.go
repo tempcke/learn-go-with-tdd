@@ -42,6 +42,16 @@ var requirements = []requirement{
 		"3,4,5",
 		12,
 	},
+	{
+		"Numbers greater than 1000 are ignored",
+		"1,1000,1001,2",
+		1003,
+	},
+	{
+		"Numbers greater than 1000 are ignored",
+		"1001",
+		0,
+	},
 }
 
 func TestStringCalculator(t *testing.T) {

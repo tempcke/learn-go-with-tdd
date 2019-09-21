@@ -17,8 +17,11 @@ const (
 
 func Resolve(input string) (int, error) {
 	if n, err := str2int(input); err == nil {
-	  if n < 0 {
+		if n < 0 {
 			return n, ErrNegNums
+		}
+		if n > 1000 {
+			return 0, nil
 		}
 		return n, nil
 	}
@@ -53,6 +56,9 @@ func sum(ints ...int) (int, error) {
 	for i := range ints {
 		if ints[i] < 0 {
 			return 0, ErrNegNums
+		}
+		if ints[i] > 1000 {
+			continue
 		}
 		sum += ints[i]
 	}
