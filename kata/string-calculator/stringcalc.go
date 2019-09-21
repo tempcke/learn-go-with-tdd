@@ -17,13 +17,7 @@ const (
 
 func Resolve(input string) (int, error) {
 	if n, err := str2int(input); err == nil {
-		if n < 0 {
-			return n, ErrNegNums
-		}
-		if n > 1000 {
-			return 0, nil
-		}
-		return n, nil
+		return validate(n)
 	}
 	d := detectDelim(input)
 	nums := str2slice(input, d)
@@ -54,15 +48,23 @@ func str2slice(input string, delim string) []int {
 func sum(ints ...int) (int, error) {
 	sum := 0
 	for i := range ints {
-		if ints[i] < 0 {
-			return 0, ErrNegNums
+		n, e := validate(ints[i])
+		if e != nil {
+			return n, e
 		}
-		if ints[i] > 1000 {
-			continue
-		}
-		sum += ints[i]
+		sum += n
 	}
 	return sum, nil
+}
+
+func validate(n int) (int, error) {
+	if n < 0 {
+		return n, ErrNegNums
+	}
+	if n > 1000 {
+		return 0, nil
+	}
+	return n, nil
 }
 
 func detectDelim(input string) string {
