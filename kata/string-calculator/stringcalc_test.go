@@ -57,6 +57,11 @@ var requirements = []requirement{
 		"//#\n3#4",
 		7,
 	},
+	{
+		"A multi char delimiter can be defined on the first line (e.g. //[###] for ‘###’ as the delimiter)",
+		"//[###]\n3###4",
+		7,
+	},
 }
 
 func TestStringCalculator(t *testing.T) {

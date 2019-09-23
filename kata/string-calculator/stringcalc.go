@@ -81,6 +81,9 @@ func detectDelim(input string) string {
 	if strings.HasPrefix(input, "//") {
 		nlPos := strings.Index(input,"\n")
 		d := input[2:nlPos]
+		if strings.HasPrefix(d, "[") {
+			d = strings.Trim(d, "[]")
+		}
 		return d
 	}
 	if strings.Contains(input, "\n") {
