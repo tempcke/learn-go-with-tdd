@@ -35,13 +35,32 @@ func str2int(input string) (i int, err error) {
 	return int(n), nil
 }
 
-func str2slice(input string, delim string) []int {
+func str2slice(input string, delim []string) []int {
 	var result []int
-	toks := strings.Split(input, delim)
-	for _, tok := range toks {
-		i, _ := str2int(tok)
-		result = append(result, i)
+	var tok string
+	for i, c := range input {
+		char := string(c)
+		tok += char
+		for _, d := range delim {
+			if strings.HasSuffix(tok, d) {
+				strNum := tok[0:len(tok)-len(d)]
+				n, _ := str2int(strNum)
+				result = append(result, n)
+				tok = ""
+				break
+			}
+		}
+		if len(tok) > 0 && i == len(input)-1 {
+			n, _ := str2int(tok)
+			result = append(result, n)
+		}
 	}
+	//
+	//toks := strings.Split(input, delim)
+	//for _, tok := range toks {
+	//	i, _ := str2int(tok)
+	//	result = append(result, i)
+	//}
 	return result
 }
 
@@ -67,8 +86,8 @@ func validate(n int) (int, error) {
 	return n, nil
 }
 
-func inputAndDelim(input string) (string, string) {
-	delim := detectDelim(input)
+func inputAndDelim(input string) (string, []string) {
+	delim := detectDelims(input)
 
 	if strings.HasPrefix(input, "//") {
 		input = input[strings.Index(input,"\n")+1:]
@@ -90,4 +109,32 @@ func detectDelim(input string) string {
 		return "\n"
 	}
 	return ","
+}
+
+func detectDelims(input string) []string {
+	var d string
+	var delims []string
+	if strings.HasPrefix(input, "//") {
+		nlPos := strings.Index(input,"\n")
+		substr := input[2:nlPos]
+		if !strings.HasPrefix(substr,"[") {
+			return []string{substr}
+		}
+		for _, c := range substr {
+			char := string(c)
+			switch (char) {
+			case "[" :
+				d = ""
+			case "]" :
+				delims = append(delims, d)
+			default :
+				d += char
+			}
+		}
+		return delims
+	}
+	if strings.Contains(input, "\n") {
+		return []string{"\n"}
+	}
+	return []string{","}
 }

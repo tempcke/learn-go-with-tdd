@@ -62,6 +62,11 @@ var requirements = []requirement{
 		"//[###]\n3###4",
 		7,
 	},
+	{
+		"Many single or multi-char delimiters can be defined (each wrapped in square brackets)",
+		"//[##][%%]\n3##4%%5",
+		12,
+	},
 }
 
 func TestStringCalculator(t *testing.T) {
