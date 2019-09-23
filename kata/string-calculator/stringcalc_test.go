@@ -52,6 +52,11 @@ var requirements = []requirement{
 		"1001",
 		0,
 	},
+	{
+		"A single char delimiter can be defined on the first line (e.g. //# for a ‘#’ as the delimiter)",
+		"//#\n3#4",
+		7,
+	},
 }
 
 func TestStringCalculator(t *testing.T) {

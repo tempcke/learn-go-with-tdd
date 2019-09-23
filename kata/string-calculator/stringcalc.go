@@ -19,8 +19,8 @@ func Resolve(input string) (int, error) {
 	if n, err := str2int(input); err == nil {
 		return validate(n)
 	}
-	d := detectDelim(input)
-	nums := str2slice(input, d)
+	s, d := inputAndDelim(input)
+	nums := str2slice(s, d)
 	return sum(nums...)
 }
 
@@ -67,7 +67,22 @@ func validate(n int) (int, error) {
 	return n, nil
 }
 
+func inputAndDelim(input string) (string, string) {
+	delim := detectDelim(input)
+
+	if strings.HasPrefix(input, "//") {
+		input = input[strings.Index(input,"\n")+1:]
+	}
+
+	return input, delim
+}
+
 func detectDelim(input string) string {
+	if strings.HasPrefix(input, "//") {
+		nlPos := strings.Index(input,"\n")
+		d := input[2:nlPos]
+		return d
+	}
 	if strings.Contains(input, "\n") {
 		return "\n"
 	}
