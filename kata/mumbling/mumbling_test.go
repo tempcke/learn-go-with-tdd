@@ -10,6 +10,10 @@ type requirment struct {
 var requirments = []requirment{
 	{"", ""},
 	{"a", "A"},
+	{"ab", "A-Bb"},
+	{"abC", "A-Bb-Ccc"},
+	{"aBCd", "A-Bb-Ccc-Dddd"},
+	{"QWERTY", "Q-Ww-Eee-Rrrr-Ttttt-Yyyyyy"},
 }
 
 func TestMumble(t *testing.T) {
