@@ -3,7 +3,16 @@ package main
 import "reflect"
 
 func walk(x interface{}, fn func(input string)) {
-	value := reflect.ValueOf(x)
-	field := value.Field(0)
-	fn(field.String())
+	v := reflect.ValueOf(x)
+
+	for i := 0; i < v.NumField(); i++ {
+		field := v.Field(i)
+
+		switch field.Kind() {
+		case reflect.String:
+			fn(field.String())
+		case reflect.Struct:
+			walk(field.Interface(), fn)
+		}
+	}
 }
