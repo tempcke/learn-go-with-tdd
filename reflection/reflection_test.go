@@ -51,6 +51,13 @@ func TestWalk(t *testing.T) {
 				Profile{33, "London"},
 			},
 			[]string{"Chris", "London"},
+		}, {
+			"Pointers to things",
+			&Person{
+				"Chris",
+				Profile{33, "London"},
+			},
+			[]string{"Chris", "London"},
 		},
 	}
 
