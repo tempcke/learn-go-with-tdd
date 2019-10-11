@@ -19,7 +19,7 @@ func TestWalk(t *testing.T) {
 	}
 
 	type Person struct {
-		Name string
+		Name    string
 		Profile Profile
 	}
 
@@ -58,6 +58,13 @@ func TestWalk(t *testing.T) {
 				Profile{33, "London"},
 			},
 			[]string{"Chris", "London"},
+		}, {
+			"Slices",
+			[]Profile {
+				{33, "London"},
+				{34, "Chicago"},
+			},
+			[]string{"London", "Chicago"},
 		},
 	}
 

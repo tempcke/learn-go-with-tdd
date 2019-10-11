@@ -5,8 +5,8 @@ import "reflect"
 func walk(x interface{}, fn func(input string)) {
 	v := getValue(x)
 
-	for i := 0; i < v.NumField(); i++ {
-		field := v.Field(i)
+	for i := 0; i < getLen(v); i++ {
+		field := getField(v, i)
 
 		switch field.Kind() {
 		case reflect.String:
@@ -24,4 +24,18 @@ func getValue(x interface{}) reflect.Value {
 		return v.Elem()
 	}
 	return v
+}
+
+func getLen(value reflect.Value) int {
+	if value.Kind() == reflect.Slice {
+		return value.Len()
+	}
+	return value.NumField()
+}
+
+func getField(value reflect.Value, i int) reflect.Value {
+	if value.Kind() == reflect.Slice {
+		return value.Index(i)
+	}
+	return value.Field(i)
 }
