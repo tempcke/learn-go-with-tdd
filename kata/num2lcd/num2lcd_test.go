@@ -5,52 +5,26 @@ import (
 	"testing"
 )
 
-func TestZero(t *testing.T) {
-	expected := " _ \n| |\n|_|\n"
-	assert.Equal(t, expected, Num2Lcd(0))
+type req struct {
+	number int
+	expected string
 }
 
-func TestOne(t *testing.T) {
-	expected := "   \n  |\n  |\n"
-	assert.Equal(t, expected, Num2Lcd(1))
+var reqs = []req{
+	{0, " _ \n| |\n|_|\n"},
+	{1, "   \n  |\n  |\n"},
+	{2, " _ \n _|\n|_ \n"},
+	{3, " _ \n _|\n _|\n"},
+	{4, "   \n|_|\n  |\n"},
+	{5, " _ \n|_ \n _|\n"},
+	{6, " _ \n|_ \n|_|\n"},
+	{7, " _ \n  |\n  |\n"},
+	{8, " _ \n|_|\n|_|\n"},
+	{9, " _ \n|_|\n _|\n"},
 }
 
-func TestTwo(t *testing.T) {
-	expected := " _ \n _|\n|_ \n"
-	assert.Equal(t, expected, Num2Lcd(2))
-}
-
-func TestThree(t *testing.T) {
-	expected := " _ \n _|\n _|\n"
-	assert.Equal(t, expected, Num2Lcd(3))
-}
-
-func TestFour(t *testing.T) {
-	expected := "   \n|_|\n  |\n"
-	assert.Equal(t, expected, Num2Lcd(4))
-}
-
-func TestFive(t *testing.T) {
-	expected := " _ \n|_ \n _|\n"
-	assert.Equal(t, expected, Num2Lcd(5))
-}
-
-func TestSix(t *testing.T) {
-	expected := " _ \n|_ \n|_|\n"
-	assert.Equal(t, expected, Num2Lcd(6))
-}
-
-func TestSeven(t *testing.T) {
-	expected := " _ \n  |\n  |\n"
-	assert.Equal(t, expected, Num2Lcd(7))
-}
-
-func TestEight(t *testing.T) {
-	expected := " _ \n|_|\n|_|\n"
-	assert.Equal(t, expected, Num2Lcd(8))
-}
-
-func TestNine(t *testing.T) {
-	expected := " _ \n|_|\n _|\n"
-	assert.Equal(t, expected, Num2Lcd(9))
+func TestSingleDigits(t *testing.T) {
+	for _, req := range reqs {
+		assert.Equal(t, req.expected, Num2Lcd(req.number))
+	}
 }
