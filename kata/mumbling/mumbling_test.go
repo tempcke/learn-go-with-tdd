@@ -2,12 +2,12 @@ package mumbleing
 
 import "testing"
 
-type requirment struct {
+type requirement struct {
 	input    string
 	expected string
 }
 
-var requirments = []requirment{
+var requirements = []requirement{
 	{"", ""},
 	{"a", "A"},
 	{"ab", "A-Bb"},
@@ -17,14 +17,14 @@ var requirments = []requirment{
 }
 
 func TestMumble(t *testing.T) {
-	for _, req := range requirments {
+	for _, req := range requirements {
 		t.Run(req.input+" to "+req.expected, func(t *testing.T) {
 			checkRequirement(t, req)
 		})
 	}
 }
 
-func checkRequirement(t *testing.T, req requirment) {
+func checkRequirement(t *testing.T, req requirement) {
 	result := mumbleLetters(req.input)
 	if req.expected != result {
 		t.Errorf(
