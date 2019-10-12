@@ -7,59 +7,61 @@ func Num2Lcd(num int) string {
 	return strings.Join(toks[:], "\n") + "\n"
 }
 
-func numberSegments(n int) [3]string {
+type digit [3]string
+
+func numberSegments(n int) digit {
 	switch n {
-	case 0: return [3]string{
+	case 0: return digit{
 		" _ ",
 		"| |",
 		"|_|",
 	}
-	case 1: return [3]string{
+	case 1: return digit{
 		"   ",
 		"  |",
 		"  |",
 	}
-	case 2: return [3]string{
+	case 2: return digit{
 		" _ ",
 		" _|",
 		"|_ ",
 	}
-	case 3: return [3]string{
+	case 3: return digit{
 		" _ ",
 		" _|",
 		" _|",
 	}
-	case 4: return [3]string{
+	case 4: return digit{
 		"   ",
 		"|_|",
 		"  |",
 	}
-	case 5: return [3]string{
+	case 5: return digit{
 		" _ ",
 		"|_ ",
 		" _|",
 	}
-	case 6: return [3]string{
+	case 6: return digit{
 		" _ ",
 		"|_ ",
 		"|_|",
 	}
-	case 7: return [3]string{
+	case 7: return digit{
 		" _ ",
 		"  |",
 		"  |",
 	}
-	case 8: return [3]string{
+	case 8: return digit{
 		" _ ",
 		"|_|",
 		"|_|",
 	}
-	case 9: return [3]string{
+	case 9: return digit{
 		" _ ",
 		"|_|",
 		" _|",
 	}
-	default: return [3]string{}
+	default: return digit{}
 	}
 }
 
