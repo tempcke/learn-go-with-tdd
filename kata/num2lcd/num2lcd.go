@@ -4,7 +4,8 @@ import "strings"
 
 func Num2Lcd(num int) string {
 	toks := numberSegments(num)
-	return strings.Join(toks[:], "\n") + "\n"
+	lcdNum := strings.Join(toks[:], "\n")
+	return lcdNum + "\n"
 }
 
 type digit [3]string
