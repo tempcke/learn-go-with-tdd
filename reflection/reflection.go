@@ -2,25 +2,41 @@ package main
 
 import "reflect"
 
-
 func walk(x interface{}, fn func(input string)) {
-	val := getValue(x)
+	w := fnWalk{fn}
+	w.walk(x)
+}
+
+type fnWalk struct {
+	fn func(input string)
+}
+
+func (w *fnWalk) walk(x interface{}) {
+	val := w.getValue(x)
 
 	switch val.Kind() {
+
 	case reflect.String:
-		fn(val.String())
+		w.fn(val.String())
+
 	case reflect.Struct:
-		walkEach(val.Field, val.NumField(), fn)
+		for i := 0; i < val.NumField(); i++ {
+			w.walkValue(val.Field(i))
+		}
+
 	case reflect.Slice, reflect.Array:
-		walkEach(val.Index, val.Len(), fn)
+		for i := 0; i < val.Len(); i++ {
+			w.walkValue(val.Index(i))
+		}
+
 	case reflect.Map:
 		for _, key := range val.MapKeys() {
-			walkValue(val.MapIndex(key), fn)
+			w.walkValue(val.MapIndex(key))
 		}
 	}
 }
 
-func getValue(x interface{}) reflect.Value {
+func (w *fnWalk) getValue(x interface{}) reflect.Value {
 	v := reflect.ValueOf(x)
 
 	if v.Kind() == reflect.Ptr {
@@ -29,12 +45,6 @@ func getValue(x interface{}) reflect.Value {
 	return v
 }
 
-func walkEach(field func(int) reflect.Value, len int, fn func(input string)) {
-	for i:=0; i<len; i++ {
-		walkValue(field(i), fn)
-	}
-}
-
-func walkValue(value reflect.Value, fn func(input string)) {
-	walk(value.Interface(), fn)
+func (w *fnWalk) walkValue(value reflect.Value) {
+	w.walk(value.Interface())
 }
