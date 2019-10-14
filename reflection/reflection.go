@@ -2,18 +2,17 @@ package main
 
 import "reflect"
 
+
 func walk(x interface{}, fn func(input string)) {
-	v := getValue(x)
+	val := getValue(x)
 
-	for i := 0; i < getLen(v); i++ {
-		field := getField(v, i)
-
-		switch field.Kind() {
-		case reflect.String:
-			fn(field.String())
-		case reflect.Struct:
-			walk(field.Interface(), fn)
-		}
+	switch val.Kind() {
+	case reflect.String:
+		fn(val.String())
+	case reflect.Struct:
+		walkEach(val.Field, val.NumField(), fn)
+	case reflect.Slice:
+		walkEach(val.Index, val.Len(), fn)
 	}
 }
 
@@ -26,16 +25,8 @@ func getValue(x interface{}) reflect.Value {
 	return v
 }
 
-func getLen(value reflect.Value) int {
-	if value.Kind() == reflect.Slice {
-		return value.Len()
+func walkEach(field func(int) reflect.Value, len int, fn func(input string)) {
+	for i:=0; i<len; i++ {
+		walk(field(i).Interface(), fn)
 	}
-	return value.NumField()
-}
-
-func getField(value reflect.Value, i int) reflect.Value {
-	if value.Kind() == reflect.Slice {
-		return value.Index(i)
-	}
-	return value.Field(i)
 }
