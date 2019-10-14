@@ -11,8 +11,12 @@ func walk(x interface{}, fn func(input string)) {
 		fn(val.String())
 	case reflect.Struct:
 		walkEach(val.Field, val.NumField(), fn)
-	case reflect.Slice:
+	case reflect.Slice, reflect.Array:
 		walkEach(val.Index, val.Len(), fn)
+	case reflect.Map:
+		for _, key := range val.MapKeys() {
+			walkValue(val.MapIndex(key), fn)
+		}
 	}
 }
 
@@ -27,6 +31,10 @@ func getValue(x interface{}) reflect.Value {
 
 func walkEach(field func(int) reflect.Value, len int, fn func(input string)) {
 	for i:=0; i<len; i++ {
-		walk(field(i).Interface(), fn)
+		walkValue(field(i), fn)
 	}
+}
+
+func walkValue(value reflect.Value, fn func(input string)) {
+	walk(value.Interface(), fn)
 }
