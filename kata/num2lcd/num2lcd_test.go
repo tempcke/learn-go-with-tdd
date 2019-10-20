@@ -10,7 +10,7 @@ type req struct {
 	expected string
 }
 
-var reqs = []req{
+var singleDigitReqs = []req{
 	{0, " _ \n| |\n|_|\n"},
 	{1, "   \n  |\n  |\n"},
 	{2, " _ \n _|\n|_ \n"},
@@ -24,7 +24,17 @@ var reqs = []req{
 }
 
 func TestSingleDigits(t *testing.T) {
-	for _, req := range reqs {
+	for _, req := range singleDigitReqs {
 		assert.Equal(t, req.expected, Num2Lcd(req.number))
 	}
+}
+
+func TestTwelve(t *testing.T) {
+	expected := "    _ \n  | _|\n  ||_ \n"
+	assert.Equal(t, expected, Num2Lcd(12))
+}
+
+func TestOneThreeSevenFive(t *testing.T) {
+	expected := "    _  _  _ \n  | _|  ||_ \n  | _|  | _|\n"
+	assert.Equal(t, expected, Num2Lcd(1375))
 }
