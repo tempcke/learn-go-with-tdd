@@ -1,23 +1,41 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
+var cases = []struct {
+	player string
+	score  string
+}{
+	{"Pepper", "20"},
+	{"Floyd", "10"},
+}
+
 func TestGETPlayers(t *testing.T) {
-	t.Run("returns Pepper's score", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodGet, "/players/Pepper", nil)
-		response := httptest.NewRecorder()
+	for _, tt := range cases {
+		t.Run(tt.player, func(t *testing.T) {
+			request, _ := scoreRequest(tt.player)
+			response := httptest.NewRecorder()
 
-		PlayerServer(response, request)
+			PlayerServer(response, request)
 
-		got := response.Body.String()
-		want := "20"
+			assertResponseBody(t, response.Body.String(), tt.score)
+		})
+	}
+}
 
-		if got != want {
-			t.Errorf("got %q, want %q", got, want)
-		}
-	})
+func scoreRequest(player string) (*http.Request, error) {
+	uri := fmt.Sprintf("/players/%s", player)
+	return http.NewRequest(http.MethodGet, uri, nil)
+}
+
+func assertResponseBody(t *testing.T, got, want string) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
 }
