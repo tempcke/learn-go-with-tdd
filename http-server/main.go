@@ -7,10 +7,10 @@ import (
 )
 
 func main() {
-	handler := http.HandlerFunc(PlayerServer)
+	server := &PlayerServer{}
 	port := 5000
 	addr := fmt.Sprintf(":%d", port)
-	if err := http.ListenAndServe(addr, handler); err != nil {
+	if err := http.ListenAndServe(addr, server); err != nil {
 		log.Fatalf("could not listen on port %d %v", port, err)
 	}
 }

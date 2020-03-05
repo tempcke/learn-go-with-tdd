@@ -16,12 +16,20 @@ var cases = []struct {
 }
 
 func TestGETPlayers(t *testing.T) {
+	store := StubPlayerStore{
+		scores: map[string]int{
+			"Pepper": 20,
+			"Floyd":  10,
+		},
+	}
+	server := &PlayerServer{store: &store}
+
 	for _, tt := range cases {
 		t.Run(tt.player, func(t *testing.T) {
 			request, _ := scoreRequest(tt.player)
 			response := httptest.NewRecorder()
 
-			PlayerServer(response, request)
+			server.ServeHTTP(response, request)
 
 			assertResponseBody(t, response.Body.String(), tt.score)
 		})
@@ -38,4 +46,13 @@ func assertResponseBody(t *testing.T, got, want string) {
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
+}
+
+type StubPlayerStore struct {
+	scores map[string]int
+}
+
+func (s *StubPlayerStore) GetPlayerScore(name string) int {
+	score := s.scores[name]
+	return score
 }
