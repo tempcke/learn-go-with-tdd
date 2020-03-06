@@ -19,15 +19,9 @@ func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	score := p.store.GetPlayerScore(player)
 
-	fmt.Fprint(w, score)
-}
-
-func GetPlayerScore(player string) int {
-	switch player {
-	case "Pepper":
-		return 20
-	case "Floyd":
-		return 10
+	if score == 0 {
+		w.WriteHeader(http.StatusNotFound)
 	}
-	return 0
+
+	fmt.Fprint(w, score)
 }

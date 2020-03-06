@@ -10,9 +10,11 @@ import (
 var cases = []struct {
 	player string
 	score  string
+	responseCode int
 }{
-	{"Pepper", "20"},
-	{"Floyd", "10"},
+	{"Pepper", "20", http.StatusOK},
+	{"Floyd", "10", http.StatusOK},
+	{"Apollo", "0",http.StatusNotFound},
 }
 
 func TestGETPlayers(t *testing.T) {
@@ -22,6 +24,7 @@ func TestGETPlayers(t *testing.T) {
 			"Floyd":  10,
 		},
 	}
+
 	server := &PlayerServer{store: &store}
 
 	for _, tt := range cases {
@@ -32,6 +35,7 @@ func TestGETPlayers(t *testing.T) {
 			server.ServeHTTP(response, request)
 
 			assertResponseBody(t, response.Body.String(), tt.score)
+			assertResponseCode(t, response.Code, tt.responseCode)
 		})
 	}
 }
@@ -45,6 +49,13 @@ func assertResponseBody(t *testing.T, got, want string) {
 	t.Helper()
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func assertResponseCode(t *testing.T, got, want int) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got %d, want %d", got, want)
 	}
 }
 
