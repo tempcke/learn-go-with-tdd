@@ -44,16 +44,16 @@ var IntRomMap = map[int]string {
 }
 
 
-func TestConvertToRoman(t *testing.T) {
+func TestConvertIntToRoman(t *testing.T) {
 	for n, r := range IntRomMap {
 		testName := fmt.Sprintf("Test %d is %s", n, r)
 		t.Run(testName, func(t *testing.T) {
-			assertRoman(t, n, r)
+			assertIntToRoman(t, n, r)
 		})
 	}
 }
 
-func assertRoman(t *testing.T, n int, expected string) {
+func assertIntToRoman(t *testing.T, n int, expected string) {
 	r := ConvertToRoman(n)
 	msg := "\nConvertToRoman(%d)\n Want: %s\n Got:  %s"
 	assert.Equal(
@@ -61,3 +61,29 @@ func assertRoman(t *testing.T, n int, expected string) {
 		msg, n, expected, r)
 }
 
+func TestConvertRomanToInt(t *testing.T) {
+	for n, r := range IntRomMap {
+		testName := fmt.Sprintf("Test %s is %d", r, n)
+		t.Run(testName, func(t *testing.T) {
+			assertRomanToInt(t, r, n)
+		})
+	}
+}
+
+func assertRomanToInt(t *testing.T, roman string, expected int) {
+	num := ConvertRomanToInt(roman)
+	msg := "\nConvertRomanToInt(%s)\n Want: %d\n Got:  %d"
+	assert.Equal(
+		t, expected, num,
+		msg, roman, expected, num)
+}
+
+func TestBothWays(t *testing.T) {
+	for n, r := range IntRomMap {
+		testName := fmt.Sprintf("Test %s is %d", r, n)
+		t.Run(testName, func(t *testing.T) {
+			assert.Equal(t, n, ConvertRomanToInt(ConvertToRoman(n)))
+			assert.Equal(t, r, ConvertToRoman(ConvertRomanToInt(r)))
+		})
+	}
+}

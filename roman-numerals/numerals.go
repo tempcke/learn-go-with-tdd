@@ -1,6 +1,8 @@
 package romanNumerals
 
-import "strings"
+import (
+	"strings"
+)
 
 type RomanNumeral struct {
 	Value int
@@ -32,24 +34,32 @@ func ConvertToRoman(n int) string {
 			n -= rn.Value
 		}
 	}
-	//for n > 0 {
-	//	switch {
-	//	case n > 9:
-	//		result.WriteString("X")
-	//		n -= 10
-	//	case n > 8:
-	//		result.WriteString("IX")
-	//		n -= 9
-	//	case n > 4:
-	//		result.WriteString("V")
-	//		n -= 5
-	//	case n > 3:
-	//		result.WriteString("IV")
-	//		n -= 4
-	//	default:
-	//		result.WriteString("I")
-	//		n -= 1
-	//	}
-	//}
+
 	return result.String()
+}
+
+var RNs = map[string]int{
+	"I": 1,
+	"V": 5,
+	"X": 10,
+	"L": 50,
+	"C": 100,
+	"D": 500,
+	"M": 1000,
+}
+
+func ConvertRomanToInt(roman string) int {
+	total := 0
+	prev := 0
+	for i:=len(roman)-1; i>=0; i-- {
+		char := string(roman[i])
+		v := RNs[char]
+		if v < prev {
+			total -= v
+		}	else {
+			total += v
+		}
+		prev = v
+	}
+	return total
 }
