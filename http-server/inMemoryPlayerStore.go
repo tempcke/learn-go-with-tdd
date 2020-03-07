@@ -7,3 +7,8 @@ type InMemoryPlayerStore struct{}
 func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
 	return 123
 }
+
+// RecordWin is used to add a point for name
+func (i *InMemoryPlayerStore) RecordWin(name string) {
+
+}
