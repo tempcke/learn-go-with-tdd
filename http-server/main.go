@@ -7,7 +7,9 @@ import (
 )
 
 func main() {
-	server := &PlayerServer{}
+	server := &PlayerServer{
+		store: &InMemoryPlayerStore{},
+	}
 	port := 5000
 	addr := fmt.Sprintf(":%d", port)
 	if err := http.ListenAndServe(addr, server); err != nil {
