@@ -8,7 +8,7 @@ import (
 
 func main() {
 	server := &PlayerServer{
-		store: &InMemoryPlayerStore{},
+		store: NewInMemoryPlayerStore(),
 	}
 	port := 5000
 	addr := fmt.Sprintf(":%d", port)

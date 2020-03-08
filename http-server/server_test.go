@@ -28,7 +28,7 @@ func TestGETPlayers(t *testing.T) {
 
 	for _, tt := range cases {
 		t.Run(tt.player, func(t *testing.T) {
-			request, _ := scoreRequest(tt.player)
+			request := scoreRequest(tt.player)
 			response := httptest.NewRecorder()
 
 			server.ServeHTTP(response, request)
@@ -69,6 +69,22 @@ func TestStoreWins(t *testing.T) {
 
 }
 
+func TestRecordingWinsAndRetrievingThem(t *testing.T) {
+	store := NewInMemoryPlayerStore()
+	server := PlayerServer{store}
+	player := "Pepper"
+
+	for i := 0; i < 3; i++ {
+		server.ServeHTTP(httptest.NewRecorder(), postWinRequest(player))
+	}
+
+	response := httptest.NewRecorder()
+	server.ServeHTTP(response, scoreRequest(player))
+
+	assertStatus(t, response.Code, http.StatusOK)
+	assertResponseBody(t, response.Body.String(), "3")
+}
+
 func postWinRequest(name string) *http.Request {
 	req, _ := http.NewRequest(
 		http.MethodPost,
@@ -78,9 +94,10 @@ func postWinRequest(name string) *http.Request {
 	return req
 }
 
-func scoreRequest(player string) (*http.Request, error) {
+func scoreRequest(player string) *http.Request {
 	uri := fmt.Sprintf("/players/%s", player)
-	return http.NewRequest(http.MethodGet, uri, nil)
+	req, _ := http.NewRequest(http.MethodGet, uri, nil)
+	return req
 }
 
 func assertStatus(t *testing.T, got, want int) {
